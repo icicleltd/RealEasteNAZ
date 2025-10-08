@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Heart, Search, Phone, CalendarDays, MessageCircle } from "lucide-react";
+import { Heart, Phone, CalendarDays, MessageCircle, User } from "lucide-react";
 import Image from "next/image";
 
 const Header = () => {
@@ -16,7 +16,7 @@ const Header = () => {
 
     return (
         <header
-            className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled ? "bg-blue-950 pb-4 backdrop-blur-md" : "bg-transparent"
+            className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled ? "bg-[#0B0732]/90 pb-4 backdrop-blur-md" : "bg-transparent"
                 }`}
         >
             {/* 🔹 Top Bar (Hide when scrolled) */}
@@ -71,13 +71,13 @@ const Header = () => {
 
                 {/* Logo */}
                 <div className="text-center mt-2">
-                    <Image
+                    <a href="/"> <Image
                         src="/logo.png"
                         alt="Logo"
                         width={150}
                         height={100}
                         className="mx-auto"
-                    />
+                    /></a>
                 </div>
 
                 {/* Right Menu */}
@@ -92,7 +92,7 @@ const Header = () => {
                         CONTACT US
                     </a>
                     <Heart size={18} className="cursor-pointer hover:opacity-70" />
-                    <Search size={18} className="cursor-pointer hover:opacity-70" />
+                    <a href="/signin"> <User size={18} className="cursor-pointer hover:opacity-70" /></a>
                 </div>
             </div>
         </header>
