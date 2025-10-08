@@ -16,7 +16,7 @@ const Header = () => {
 
     return (
         <header
-            className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled ? "bg-[#1c1c1c]/90 backdrop-blur-md" : "bg-transparent"
+            className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled ? "bg-blue-950 pb-4 backdrop-blur-md" : "bg-transparent"
                 }`}
         >
             {/* 🔹 Top Bar (Hide when scrolled) */}
@@ -70,7 +70,7 @@ const Header = () => {
                 </nav>
 
                 {/* Logo */}
-                <div className="text-center mt-6">
+                <div className="text-center mt-2">
                     <Image
                         src="/logo.png"
                         alt="Logo"
