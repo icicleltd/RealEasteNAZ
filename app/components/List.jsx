@@ -4,20 +4,16 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const images = [
-    "/2.jpg",
-    "/3.jpg",
-    "/4.jpg",
-    "/5.jpg",
-    "/6.jpg",
-    "/7.jpg",
-    "/8.jpg",
-    "/9.jpg",
+    "/2.jpg", "/3.jpg", "/4.jpg", "/5.jpg",
+    "/6.jpg", "/7.jpg", "/8.jpg", "/9.jpg",
 ];
 
 const List = () => {
+    const containerRef = useRef(null);
+    const colRefs = useRef([[], [], [], []]); // 4 columns
     const [visible, setVisible] = useState([]);
-    const containerRef = useRef([]);
 
+    // Intersection Observer for fade-in effect
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -31,24 +27,56 @@ const List = () => {
             { threshold: 0.3 }
         );
 
-        containerRef.current.forEach((el) => el && observer.observe(el));
+        colRefs.current.forEach((col) =>
+            col.forEach((el) => el && observer.observe(el))
+        );
 
-        return () => {
-            observer.disconnect();
-        };
+        return () => observer.disconnect();
     }, []);
 
+    // Scroll effect
+    useEffect(() => {
+        const handleScroll = () => {
+            if (!containerRef.current) return;
+            const scrollTop = containerRef.current.scrollTop;
+
+            colRefs.current.forEach((col, colIndex) => {
+                const speed = colIndex % 2 === 0 ? 0.5 : 1.5; // 1st & 3rd slower, 2nd & 4th faster
+                col.forEach((el) => {
+                    if (el) el.style.transform = `translateY(${scrollTop * speed}px)`;
+                });
+            });
+        };
+
+        const container = containerRef.current;
+        container.addEventListener("scroll", handleScroll);
+        return () => container.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    // Split images into 4 columns
+    const cols = [[], [], [], []];
+    images.forEach((img, i) => {
+        cols[i % 4].push({ src: img, index: i });
+    });
+
     const containerStyle = {
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+        display: "flex",
+        overflowY: "scroll",
+        height: "100vh",
         gap: "20px",
-        padding: "40px",
+        padding: "20px",
+    };
+
+    const columnStyle = {
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+        flex: "1",
     };
 
     const itemStyle = (isVisible) => ({
         opacity: isVisible ? 1 : 0,
-        transform: isVisible ? "translateY(0)" : "translateY(50px)",
-        transition: "all 0.8s ease",
+        transition: "opacity 0.8s ease",
     });
 
     const imgStyle = {
@@ -56,25 +84,28 @@ const List = () => {
         height: "auto",
         borderRadius: "15px",
         objectFit: "cover",
-        display: "block",
     };
 
     return (
-        <div style={containerStyle}>
-            {images.map((src, index) => (
-                <div
-                    key={index}
-                    data-index={index}
-                    ref={(el) => (containerRef.current[index] = el)}
-                    style={itemStyle(visible.includes(index))}
-                >
-                    <Image
-                        src={src}
-                        alt={`image-${index}`}
-                        width={400}
-                        height={300}
-                        style={imgStyle}
-                    />
+        <div ref={containerRef} style={containerStyle}>
+            {cols.map((col, colIndex) => (
+                <div key={colIndex} style={columnStyle}>
+                    {col.map((item) => (
+                        <div
+                            key={item.index}
+                            data-index={item.index}
+                            ref={(el) => (colRefs.current[colIndex][item.index] = el)}
+                            style={itemStyle(visible.includes(item.index))}
+                        >
+                            <Image
+                                src={item.src}
+                                alt={`image-${item.index}`}
+                                width={400}
+                                height={300}
+                                style={imgStyle}
+                            />
+                        </div>
+                    ))}
                 </div>
             ))}
         </div>
