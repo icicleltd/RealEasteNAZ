@@ -1,22 +1,25 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 
 const SignIn = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     const handleGoogleLogin = () => {
-        // 🔹 Here you’ll integrate Google OAuth later (NextAuth or Firebase)
         console.log("Google login clicked");
     };
 
     const handleFacebookLogin = () => {
-        // 🔹 Here you’ll integrate Facebook OAuth later (NextAuth or Firebase)
         console.log("Facebook login clicked");
     };
 
+    // ✅ Button is enabled only if both email and password are not empty
+    const isFormValid = email.trim() !== "" && password.trim() !== "";
+
     return (
         <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-            {/* 🎥 Background Video */}
             <video
                 autoPlay
                 loop
@@ -27,10 +30,8 @@ const SignIn = () => {
                 <source src="/log.mp4" type="video/mp4" />
             </video>
 
-            {/* 🧊 Overlay for dark effect */}
             <div className="absolute inset-0 bg-black/40" />
 
-            {/* 🧾 Sign In Form */}
             <div className="relative mt-20 bg-black/20 backdrop-blur-xs shadow-lg rounded-2xl p-4 w-full max-w-md z-10">
                 <h1 className="text-3xl font-bold text-center text-sky-400">
                     Welcome Back
@@ -44,6 +45,8 @@ const SignIn = () => {
                         <input
                             type="email"
                             placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="w-full px-4 py-2 border text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 bg-transparent"
                         />
                     </div>
@@ -55,26 +58,30 @@ const SignIn = () => {
                         <input
                             type="password"
                             placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             className="w-full px-4 py-2 border text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 bg-transparent"
                         />
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-sky-400 text-white py-2 rounded-lg hover:bg-sky-500 transition duration-200"
+                        disabled={!isFormValid} // 🔹 Disable if form is not valid
+                        className={`w-full py-2 rounded-lg transition duration-200 ${isFormValid
+                                ? "bg-sky-400 text-white hover:bg-sky-500"
+                                : "bg-gray-500 text-gray-300 cursor-not-allowed"
+                            }`}
                     >
                         Sign In
                     </button>
                 </form>
 
-                {/* 🧠 OR Divider */}
                 <div className="flex items-center my-6">
                     <hr className="flex-grow border-gray-500" />
                     <span className="text-gray-300 text-sm px-2">or</span>
                     <hr className="flex-grow border-gray-500" />
                 </div>
 
-                {/* 🌍 Social Logins */}
                 <div className="flex flex-col gap-3">
                     <button
                         onClick={handleGoogleLogin}
