@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Heart, Phone, CalendarDays, MessageCircle, User } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -92,7 +93,9 @@ const Header = () => {
                         CONTACT US
                     </a>
                     <Heart size={18} className="cursor-pointer hover:opacity-70" />
-                    <a href="/signin"> <User size={18} className="cursor-pointer hover:opacity-70" /></a>
+                    <Link href="/signup">
+                        <User size={18} className="cursor-pointer hover:opacity-70" />
+                    </Link>
                 </div>
             </div>
         </header>
