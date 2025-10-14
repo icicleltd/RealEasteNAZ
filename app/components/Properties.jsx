@@ -25,9 +25,9 @@ const fakeProperties = [
         baths: 2,
         rating: 4.8,
         images: [
-            "/1.jpg",
-            "/2.jpg",
-            "/3.jpg",
+            "/PROPERTIES1.jpg",
+            "/PROPERTIES2.jpg",
+            "/PROPERTIES3.jpg",
         ],
     },
     {
@@ -39,7 +39,7 @@ const fakeProperties = [
         beds: 1,
         baths: 1,
         rating: 4.1,
-        images: ["/4.jpg", "/5.jpg"],
+        images: ["/PROPERTIES4.jpg", "/PROPERTIES5.jpg"],
     },
     {
         id: 3,
@@ -50,7 +50,7 @@ const fakeProperties = [
         beds: 4,
         baths: 2,
         rating: 3.9,
-        images: ["/images/prop3-1.jpg"],
+        images: ["/PROPERTIES6.jpg"],
     },
     // create remaining 7 fake properties
     {
@@ -62,7 +62,7 @@ const fakeProperties = [
         beds: 5,
         baths: 4,
         rating: 4.9,
-        images: ["/images/house2-1.jpg", "/images/house2-2.jpg"],
+        images: ["/PROPERTIES7.jpg", "/PROPERTIES8.jpg"],
     },
     {
         id: 5,
@@ -73,7 +73,7 @@ const fakeProperties = [
         beds: 2,
         baths: 1,
         rating: 4.2,
-        images: ["/images/apt1-1.jpg", "/images/apt1-2.jpg"],
+        images: ["/PROPERTIES9.jpg", "/PROPERTIES10.jpg"],
     },
     {
         id: 6,
@@ -84,7 +84,7 @@ const fakeProperties = [
         beds: 1,
         baths: 1,
         rating: 4.6,
-        images: ["/images/loft1-1.jpg", "/images/loft1-2.jpg"],
+        images: ["/PROPERTIES11.jpg", "/PROPERTIES12.jpg"],
     },
     {
         id: 7,
@@ -95,7 +95,7 @@ const fakeProperties = [
         beds: 4,
         baths: 3,
         rating: 4.3,
-        images: ["/images/house3-1.jpg", "/images/house3-2.jpg"],
+        images: ["/PROPERTIES13.jpg", "/PROPERTIES14.jpg"],
     },
     {
         id: 8,
@@ -106,7 +106,7 @@ const fakeProperties = [
         beds: 3,
         baths: 3,
         rating: 4.95,
-        images: ["/images/pent1-1.jpg", "/images/pent1-2.jpg", "/images/pent1-3.jpg"],
+        images: ["/PROPERTIES15.jpg", "/PROPERTIES16.jpg", "/PROPERTIES17.jpg"],
     },
     {
         id: 9,
@@ -117,7 +117,7 @@ const fakeProperties = [
         beds: 2,
         baths: 1,
         rating: 4.0,
-        images: ["/images/cottage1-1.jpg"],
+        images: ["/PROPERTIES18.jpg"],
     },
     {
         id: 10,
@@ -128,7 +128,7 @@ const fakeProperties = [
         beds: 0,
         baths: 1,
         rating: 3.8,
-        images: ["/images/studio1-1.jpg", "/images/studio1-2.jpg"],
+        images: ["/PROPERTIES1.jpg", "/PROPERTIES2.jpg"],
     },
 ];
 
@@ -152,7 +152,7 @@ const Card = ({ p, onOpen }) => {
                 <h3 className="text-lg font-semibold">{p.title}</h3>
                 <p className="text-sm text-slate-500 mt-1 flex items-center">
                     <svg
-                        className="w-4 h-4 inline-block mr-1 text-green-600"
+                        className="w-4 h-4 inline-block mr-1 text-sky-600"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                     >
@@ -171,8 +171,23 @@ const Card = ({ p, onOpen }) => {
                         </div>
                     </div>
                     <div className="text-sm text-slate-600">
-                        ⭐ {p.rating.toFixed(1)}
+                        {/* Mobile View: Call Now button */}
+                        <a
+                            href="tel:+8801700000000"
+                            className="bg-sky-500 hover:bg-sky-600 text-white px-3 py-1 rounded-md text-sm inline-block md:hidden"
+                        >
+                            📞 Call Now
+                        </a>
+
+                        {/* Desktop View: Show number instead */}
+                        <button
+                            onClick={() => window.open("tel:+8801700000000")}
+                            className="hidden md:inline-block bg-sky-500 hover:bg-sky-600 text-white px-3 py-1 rounded-md text-sm"
+                        >
+                            📞 +880 1700-000000
+                        </button>
                     </div>
+
                 </div>
             </div>
         </div>
