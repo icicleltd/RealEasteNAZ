@@ -35,7 +35,7 @@ const Contact = () => {
                             value={formData.name}
                             onChange={handleChange}
                             placeholder="Full Name"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="w-full px-4 py-2 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             required
                         />
                         <input
@@ -44,7 +44,7 @@ const Contact = () => {
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="Email Address"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="w-full px-4 py-2 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             required
                         />
                         <input
@@ -53,7 +53,7 @@ const Contact = () => {
                             value={formData.phone}
                             onChange={handleChange}
                             placeholder="Phone Number"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="w-full px-4 py-2 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             required
                         />
                         <input
@@ -62,14 +62,14 @@ const Contact = () => {
                             value={formData.address}
                             onChange={handleChange}
                             placeholder="Address"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="w-full px-4 py-2 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
                         <textarea
                             name="message"
                             value={formData.message}
                             onChange={handleChange}
                             placeholder="Your Message"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+                            className="w-full px-4 py-2 border border-black/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
                             rows="4"
                             required
                         ></textarea>
