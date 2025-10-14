@@ -2,25 +2,26 @@
 import axiosPrivate from "@/lib/axiosPrivate";
 import Link from "next/link";
 import React, { useState } from "react";
-// import axiosPrivate from "../lib/axiosPrivate"; // import your private axios
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
+    const router = useRouter();
     const [formData, setFormData] = useState({
         username: "",
         email: "",
         password: "",
     });
 
-    const [loading, setLoading] = useState(false); // optional loading state
-    const [error, setError] = useState(""); // optional error state
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
-    // Check if all fields are filled
     const isFormValid =
         formData.username.trim() !== "" &&
         formData.email.trim() !== "" &&
         formData.password.trim() !== "";
 
-    // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -29,7 +30,6 @@ const Signup = () => {
         }));
     };
 
-    // Handle form submit
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!isFormValid) return;
@@ -39,18 +39,33 @@ const Signup = () => {
 
         try {
             const res = await axiosPrivate.post("/api/auth/signup", formData);
-
             console.log("User registered ✅", res.data);
 
-            // Clear form after successful signup
+            // ✅ Show success toast
+            toast.success("Signup successful! Redirecting to homepage...", {
+                position: "top-center",
+                autoClose: 2000,
+            });
+
+            // Clear form
             setFormData({
                 username: "",
                 email: "",
                 password: "",
             });
+
+            // ✅ Redirect after short delay
+            setTimeout(() => {
+                router.push("/");
+            }, 2000);
         } catch (err) {
             console.error("Error:", err.response?.data?.message || err.message);
             setError(err.response?.data?.message || "Something went wrong!");
+
+            // ❌ Error toast
+            toast.error(err.response?.data?.message || "Signup failed!", {
+                position: "top-center",
+            });
         } finally {
             setLoading(false);
         }
@@ -129,8 +144,8 @@ const Signup = () => {
                         type="submit"
                         disabled={!isFormValid || loading}
                         className={`w-full py-2 rounded-lg transition duration-200 ${isFormValid && !loading
-                            ? "bg-sky-400 text-white hover:bg-sky-500 cursor-pointer"
-                            : "bg-gray-500 text-gray-300 cursor-not-allowed"
+                                ? "bg-sky-400 text-white hover:bg-sky-500 cursor-pointer"
+                                : "bg-gray-500 text-gray-300 cursor-not-allowed"
                             }`}
                     >
                         {loading ? "Signing Up..." : "Sign Up"}
@@ -144,6 +159,9 @@ const Signup = () => {
                     </Link>
                 </p>
             </div>
+
+            {/* ✅ Toast Container */}
+            <ToastContainer />
         </div>
     );
 };
