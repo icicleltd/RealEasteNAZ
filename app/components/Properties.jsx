@@ -12,7 +12,7 @@ const fakeProperties = [
             "This luxurious 3-bedroom, 2-bath apartment spans around 1,750 sq. ft. Featuring a spacious living room, modern kitchen, and premium fittings, it's designed for ultimate comfort. Located in the heart of Niketon, it offers easy access to Gulshan and Banani. Perfect for families seeking both convenience and class — a true blend of luxury and lifestyle.",
         beds: 3,
         baths: 2,
-        images: ["/PROPERTIES19.jpg", "/PROPERTIES2.jpg", "/PROPERTIES3.jpg"],
+        images: ["/PROPERTIES19.jpg", "/PROPERTIES2.jpg", "/PROPERTIES3.jpg", "/PROPERTIES4.jpg", "/PROPERTIES5.jpg"],
     },
     {
         id: 2,
@@ -20,9 +20,9 @@ const fakeProperties = [
         location: "Dhanmondi, Dhaka",
         description:
             "A cozy 1-bedroom, 1-bath studio apartment ideal for students or young professionals. Approximately 650 sq. ft. of functional space with a balcony and bright natural lighting. Located close to cafes, shopping centers, and public transport — live smart and save more.",
-        beds: 1,
+        beds: 3,
         baths: 1,
-        images: ["/PROPERTIES21.jpg", "/PROPERTIES2.jpg"],
+        images: ["/PROPERTIES21.jpg", "/PROPERTIES9.jpg", "/PROPERTIES10.jpg", "/PROPERTIES12.jpg", "/PROPERTIES11.jpg"],
     },
     {
         id: 3,
@@ -121,13 +121,13 @@ const Card = ({ p, index, onOpen }) => {
     );
 };
 
-// 🟦 FULL-SCREEN MODAL COMPONENT
+// 🟦 FIXED FULL-SCREEN MODAL COMPONENT
 const Modal = ({ property, onClose }) => {
     const [index, setIndex] = useState(0);
     if (!property) return null;
 
-    const prev = () =>
-        setIndex((i) => (i - 1 + property.images.length) % property.images.length);
+    const handleImageClick = (i) => setIndex(i);
+    const prev = () => setIndex((i) => (i - 1 + property.images.length) % property.images.length);
     const next = () => setIndex((i) => (i + 1) % property.images.length);
 
     return (
@@ -136,69 +136,95 @@ const Modal = ({ property, onClose }) => {
             onClick={onClose}
         >
             <div
-                className="bg-white w-full h-full overflow-auto relative"
+                className="relative w-full h-full flex flex-col bg-cover bg-center overflow-hidden"
+                style={{
+                    backgroundImage: "url('/productbg.jpg')",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                }}
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* IMAGE SECTION */}
-                <div className="relative w-full h-[60vh] md:h-[75vh] overflow-hidden">
-                    <img
-                        src={property.images[index] || "/images/placeholder.png"}
-                        alt={`${property.title}-${index}`}
-                        className="w-full h-full object-cover"
-                    />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-black/50" />
 
-                    {property.images.length > 1 && (
-                        <>
-                            <button
-                                onClick={prev}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 p-3 rounded-full shadow-lg text-lg"
-                            >
-                                ‹
-                            </button>
-                            <button
-                                onClick={next}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 p-3 rounded-full shadow-lg text-lg"
-                            >
-                                ›
-                            </button>
-                        </>
-                    )}
+                {/* Close Button */}
+                <button
+                    onClick={onClose}
+                    className="absolute right-6 top-6 bg-white/90 hover:bg-white text-xl px-3 py-1 rounded-full shadow z-50"
+                >
+                    ✕
+                </button>
 
-                    <button
-                        onClick={onClose}
-                        className="absolute right-4 top-4 bg-white/80 p-3 rounded-full shadow-lg text-lg"
-                    >
-                        ✕
-                    </button>
+                {/* CONTENT */}
+                <div className="relative flex flex-col lg:flex-row h-full text-white z-10">
+                    {/* LEFT MAIN IMAGE */}
+                    <div className="relative w-full lg:w-1/2 h-[50vh] lg:h-full overflow-hidden">
+                        <img
+                            src={property.images[index] || "/images/placeholder.png"}
+                            alt={`${property.title}-${index}`}
+                            className="w-full h-full object-cover rounded-none"
+                        />
+                        {property.images.length > 1 && (
+                            <>
+                                <button
+                                    onClick={prev}
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 text-black p-3 rounded-full shadow-lg text-lg"
+                                >
+                                    ‹
+                                </button>
+                                <button
+                                    onClick={next}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 text-black p-3 rounded-full shadow-lg text-lg"
+                                >
+                                    ›
+                                </button>
+                            </>
+                        )}
+                    </div>
+
+                    {/* RIGHT DETAILS */}
+                    <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center">
+                        <h2 className="text-3xl font-bold mb-4 text-white">{property.title}</h2>
+                        <p className="text-base text-slate-200 leading-relaxed mb-6">
+                            {property.description}
+                        </p>
+
+                        <div className="flex flex-wrap gap-8 text-sm text-slate-200 mb-8">
+                            <div><strong>Beds:</strong> {property.beds}</div>
+                            <div><strong>Baths:</strong> {property.baths}</div>
+                            <div><strong>Location:</strong> {property.location}</div>
+                        </div>
+
+                        <div className="flex gap-4">
+                            <a
+                                className="px-6 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 flex items-center gap-2"
+                                href="tel:+8801700000000"
+                            >
+                                📞 Contact Owner
+                            </a>
+                            <button
+                                onClick={onClose}
+                                className="px-6 py-3 border border-slate-300 bg-white/10 text-white rounded-lg hover:bg-white/20"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                {/* CONTENT SECTION */}
-                <div className="p-8 max-w-6xl mx-auto">
-                    <h2 className="text-3xl font-bold mb-4">{property.title}</h2>
-                    <p className="text-base text-slate-700 leading-relaxed">
-                        {property.description}
-                    </p>
-
-                    <div className="mt-6 flex flex-wrap gap-8 text-sm text-slate-800">
-                        <div><strong>Beds:</strong> {property.beds}</div>
-                        <div><strong>Baths:</strong> {property.baths}</div>
-                        <div><strong>Location:</strong> {property.location}</div>
-                    </div>
-
-                    <div className="mt-8 flex gap-4">
-                        <a
-                            className="px-6 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700"
-                            href="tel:+8801700000000"
-                        >
-                            📞 Contact Owner
-                        </a>
-                        <button
-                            onClick={onClose}
-                            className="px-6 py-3 border border-slate-300 rounded-lg hover:bg-slate-100"
-                        >
-                            Close
-                        </button>
-                    </div>
+                {/* THUMBNAILS */}
+                <div className="absolute bottom-0 left-0 w-full bg-black/40 px-6 py-4 flex gap-3 overflow-x-auto backdrop-blur-sm z-20">
+                    {property.images.map((img, i) => (
+                        <img
+                            key={i}
+                            src={img}
+                            alt={`${property.title}-${i}`}
+                            onClick={() => handleImageClick(i)}
+                            className={`w-28 h-20 object-cover rounded-lg cursor-pointer border-2 transition ${i === index ? "border-sky-400" : "border-transparent"
+                                }`}
+                        />
+                    ))}
                 </div>
             </div>
         </div>
@@ -208,13 +234,13 @@ const Modal = ({ property, onClose }) => {
 // 🟧 MAIN COMPONENT
 const Properties = () => {
     const [selected, setSelected] = useState(null);
-    const visible = fakeProperties.slice(0, 2); // show 2 cards
+    const visible = fakeProperties.slice(0, 2);
 
     return (
         <div className="w-full py-10">
             <div className="w-full max-w-7xl mx-auto px-4 flex items-start justify-between">
                 <div>
-                    <h1 className="text-2xl font-semibold text-slate-800">Recent Offers</h1>
+                    <h1 className="text-2xl font-semibold text-slate-800">Project'&Apss</h1>
                     <p className="text-sm text-slate-500">Show more offers</p>
                 </div>
 
@@ -231,12 +257,7 @@ const Properties = () => {
             {/* Cards */}
             <div className="mt-8 flex flex-col gap-12">
                 {visible.map((p, index) => (
-                    <Card
-                        key={p.id}
-                        p={p}
-                        index={index}
-                        onOpen={(prop) => setSelected(prop)}
-                    />
+                    <Card key={p.id} p={p} index={index} onOpen={(prop) => setSelected(prop)} />
                 ))}
             </div>
 
